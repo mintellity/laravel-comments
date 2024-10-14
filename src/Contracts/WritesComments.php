@@ -11,4 +11,7 @@ interface WritesComments
      */
     public function writesComment(): MorphMany;
 
+    public function getName(): string;
+
+
 }

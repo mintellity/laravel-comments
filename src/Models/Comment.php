@@ -2,13 +2,16 @@
 
 namespace Mintellity\Comments\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasUuids;
+
+    protected $primaryKey = 'comment_id';
 
     protected $fillable = [
         'modelable_id',
@@ -25,13 +28,13 @@ class Comment extends Model
     ];
 
 
-    // Relation to the Model that gets commented (e.g. Post, Video, etc.)
+    // Relation to the model that gets commented (e.g. Post, Video, etc.)
     public function modelable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    // Relation to the Entity that made the comment (e.g. User, Admin, etc.)
+    // Relation to the entity that made the comment (e.g. User, Admin, etc.)
     public function userable(): MorphTo
     {
         return $this->morphTo();

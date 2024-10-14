@@ -13,7 +13,7 @@ trait InteractsWithComments
      */
     public function comments(): MorphMany
     {
-        return $this->morphMany(Comment::class, 'model');
+        return $this->morphMany(Comment::class, 'modelable');
     }
 
     /**
@@ -26,7 +26,7 @@ trait InteractsWithComments
 
         $comments = $commentsQuery->get();
 
-        $sortedComments = $comments->sortBy('created_at', 'desc');
+        $sortedComments = $comments->sortByDesc('created_at');
 
         return $sortedComments;
     }
