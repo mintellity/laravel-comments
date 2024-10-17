@@ -10,39 +10,30 @@ class CommentService
 {
     public function store(HasComments $model, WritesComments $author, string $commentContent)
     {
-        $comment = Comment::create([
-            'modelable_id' => $model->getKey(),
-            'modelable_type' => get_class($model),
-            'userable_id' => $author->getKey(),
-            'userable_type' => get_class($author),
+        /** @var Comment $comment */
+
+        // Create a new comment instance
+        $comment = Comment::make([
             'comment_content' => $commentContent,
         ]);
+
+        // Attach the author and the model to the comment
+        $comment->userable()->associate($author);
+        $comment->modelable()->associate($model);
+
+        $comment->save();
 
         return $comment;
     }
 
-    public function update($commentId)
-    {
-        $comment = Comment::findOrFail($commentId);
-
-        if(auth()->id() !== $comment->userable()->id())
-        {
-            abort(403);
-        }
-
-        $comment->update([
-            'comment_content' => $this->comment_content,
-            'updated_at' => now()
-        ]);
-
-        $comment->save();
-    }
 
     public function destroy ($commentId)
     {
+        // Find the comment
         $comment = Comment::findOrFail($commentId);
 
-        if(auth()->id() !== $comment->userable()->id())
+        // Check if the user is the author of the comment
+        if(auth()->user()->userable->getKey() !== $comment->userable_id)
         {
             abort(403);
         }

@@ -11,12 +11,6 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class CommentServiceProvider extends PackageServiceProvider
 {
-//
-//    public function register()
-//    {
-//        $this->app->bind(Receipt::class);
-//    }
-
 
     public function configurePackage(Package $package): void
     {
@@ -41,12 +35,10 @@ class CommentServiceProvider extends PackageServiceProvider
 
     public function bootingPackage(): void
     {
-        Livewire::component('comment-table', CommentTable::class); // register the Livewire component
-//
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'comment-package'); // Livewire blade
-//
-//        $this->publishes([
-//            __DIR__.'/../resources/views' => resource_path('views/vendor/comment-package'),
-//        ], 'comment-package-views');
+        // Register the Livewire component
+        Livewire::component('comment-table', CommentTable::class);
+
+        // Livewire blade
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'comment-package');
     }
 }

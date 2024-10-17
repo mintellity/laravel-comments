@@ -5,44 +5,37 @@
         @endif
     </div>
     <div>
-        <ul>
-            @foreach($comments as $comment)
-                <li>
-                    From: <strong> {{ $comment->userable->getName() }}</strong>
-                    <br><br>
-                    <p>{{ $comment->comment_content }}</p>
-                    <small>Created at: {{ $comment->created_at->format('d M Y') }}</small>
-
-{{--                    @if($editCommentId === $comment->userable_id)--}}
-{{--                        <form wire:submit.prevent="update">--}}
-{{--                            <input type="text" wire:model="editContent" wire:keydown.enter="update" class="form-control"--}}
-{{--                                   name="comment_content"--}}
-{{--                                   id="comment_content" value="{{ $comment->comment_content }}">--}}
-{{--                            <button type="submit" class="btn btn-success">Save</button>--}}
-{{--                            <button wire:click.prevent="edit({{ $comment->userable_id }})" class="btn btn-warning">--}}
-{{--                                Edit--}}
-{{--                            </button>--}}
-{{--                            <button wire:click.prevent="destroy({{ $comment->userable_id }})"--}}
-{{--                                    wire:confirm="Are you sure you want to delete this comment?" class="btn btn-danger">--}}
-{{--                                Delete--}}
-{{--                            </button>--}}
-{{--                        </form>--}}
-{{--                    @endif--}}
-                </li>
-            @endforeach
-        </ul>
+        @foreach($comments as $comment)
+            <div class="card mb-3">
+                <div class="card-body p-3">
+                    From: <strong> {{ $comment->userable?->getName() ?? 'No user found' }}</strong>
+                    <br>
+                    <p class="mb-0">{{ $comment->comment_content }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small style="font-size: 10px">Created
+                            at: {{ $comment->created_at->format('d M Y, h:i:s') }}</small>
+                        @if($comment->userable_id === auth()->user()->userable->getKey())
+                            <button
+                                type="button"
+                                wire:click="destroy('{{ $comment->comment_id }}')"
+                                class="btn btn-danger btn-sm fa fa-trash-alt">
+                            </button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
     <div>
         <form wire:submit="store">
             <div class="card mb-6">
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="commentContent">Comment</label>
                         <textarea wire:model="commentContent" class="form-control" name="commentContent"
                                   id="commentContent" wire:keydown.enter="store"
                                   rows="4" placeholder="Write a comment..."></textarea>
                     </div>
-                    <button wire:confirm="Do you want to submit the comment?" type="submit" class="btn btn-success">
+                    <button type="button" class="btn btn-success">
                         Save
                     </button>
                     <button wire:click="resetForm" class="btn btn-secondary">Cancel</button>
