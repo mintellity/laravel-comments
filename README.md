@@ -15,10 +15,10 @@ You can publish the migration file with:
 php artisan laravel-comments:install
 ```
 
-
 # Usage
 
-You can use the `InteractsWithComments` trait in any model you want to have comments.
+You can use the `InteractsWithComments` trait in any model you want to have comments. Once the ```InteractsWithComments``` trait is added to a model, you can add comments to it.
+
 
 ```php
 
@@ -35,12 +35,15 @@ class Post extends Model implements HasComments
 By adding the ```InteractsWithComments``` trait the model can now have comments attached to it.
 
 
+Make sure the model that gets commented on has the ```HasComments``` interface in the model class. 
+The ```WritesComments``` interface needs to be used in the class that writes a comment.
 ```php
 use Mintellity\Comments\Contracts\WritesComments;
+use Mintellity\Comments\Traits\InteractsWithComments;
 
 class User extends Model implements WritesComments
 {
-    use WritesComment;
+    use InteractsWithComments;
     
     public function getName()
     {
@@ -49,14 +52,12 @@ class User extends Model implements WritesComments
 }
 ```
 
-Once the ```InteractsWithComments``` trait is added to a model, you can add comments to it.
-
 ## Use comment-section
 
 Display the comments for a model instance using the comment-section component. It includes a form to add a new comment and a list of comments attached to the model.
 
 ```html
-<livewire comment-section :model="$model" :author="$author"/>
+<livewire:comment-section :model="$model" :author="$author"/>
 ```
 
 The ```$model``` variable is the model instance that you want to display comments for. The ```$author``` variable is the user instance that is adding the comment.
@@ -66,7 +67,7 @@ The ```$model``` variable is the model instance that you want to display comment
 ### Display comment section under a video
 
 ```html
-<livewire:comment-section :model="App\Models\Video" :author="auth()->userable->user()"/>
+<livewire:comment-section :model="App\Models\Video::first()" :author="auth()->userable->user()"/>
 ```
 
 
