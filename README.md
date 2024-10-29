@@ -52,6 +52,8 @@ class User extends Model implements WritesComments
 }
 ```
 
+By adding the ```InteractsWithComments``` trait the function ```getName()``` can be used.
+
 ## Use comment-section
 
 Display the comments for a model instance using the comment-section component. It includes a form to add a new comment and a list of comments attached to the model.
