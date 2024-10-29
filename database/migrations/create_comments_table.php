@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class create_comments_table extends Migration
+return new class extends Migration
 {
     /**
      * @return void
@@ -13,9 +13,13 @@ class create_comments_table extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('comment_id')->primary();
-            $table->string('author')->nullable();
-            $table->text('content')->nullable();
-            $table->uuidMorphs('comment_type');
+
+            // Polymorphic relation to the model that gets commented
+            $table->uuidMorphs('modelable'); // UUID and Model Type
+
+            // Polymorphic relation to the entity that made the comment
+            $table->uuidMorphs('userable'); // UUID and Model Type
+            $table->text('comment_content')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,5 +32,4 @@ class create_comments_table extends Migration
     {
         Schema::dropIfExists('comments');
     }
-
-}
+};
