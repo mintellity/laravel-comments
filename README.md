@@ -35,14 +35,12 @@ class Post extends Model implements HasComments
 By adding the ```InteractsWithComments``` trait the model can now have comments attached to it.
 
 
-You can also add the ```HasComments``` trait to the User model to get all the comments made by the user.
-
 ```php
 use Mintellity\Comments\Contracts\WritesComments;
 
 class User extends Model implements WritesComments
 {
-    use WritesComments;
+    use WritesComment;
     
     public function getName()
     {
