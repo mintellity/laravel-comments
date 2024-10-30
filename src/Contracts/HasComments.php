@@ -10,5 +10,4 @@ interface HasComments
      * @return MorphMany
      */
     public function comments(): MorphMany;
-
 }

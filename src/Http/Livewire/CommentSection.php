@@ -2,9 +2,7 @@
 
 namespace Mintellity\Comments\Http\Livewire;
 
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\Livewire;
 use Mintellity\Comments\Contracts\HasComments;
 use Mintellity\Comments\Contracts\WritesComments;
 use Mintellity\Comments\Models\Comment;
@@ -17,7 +15,6 @@ class CommentSection extends Component
     public $commentContent = '';
     public $model;
     public $author;
-
 
     private $commentService;
 
