@@ -15,10 +15,8 @@ class CommentSection extends Component
     public $commentContent = '';
     public $model;
     public $author;
-
     private $commentService;
 
-    protected $queryString = ['selectedProject' => ['as' => 'projectId']];
     protected $listeners = ['refreshComments']; // Listen for event from other components
 
     public function __construct()
